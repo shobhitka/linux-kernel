@@ -1,0 +1,16 @@
+drm-upstream/drm-fixes 4afb1534775ffcea984ab63cf9cc217203318bfe
+	Merge branch 'msm-fixes-4.0' of git://people.freedesktop.org/~robclark/linux into drm-fixes
+origin/drm-intel-fixes ab3be73fa7b43f4c3648ce29b5fd649ea54d3adb
+	drm/i915: gen4: work around hang during hibernation
+drm-upstream/drm-next d136dfeec84bfe3e4238bacd23f21e161268deac
+	drm: Pass in new and old plane state to prepare_fb and cleanup_fb
+origin/drm-intel-next-fixes 96abd10ecc2e9ab5c8060697ce721683f387c64e
+	Merge branch 'drm-next-3.20' of git://people.freedesktop.org/~agd5f/linux into drm-next
+origin/drm-intel-next-queued b024fd925c46dde8d854358b939e000b88317c70
+	drm/i915: Disable the mmio.debug WARN after it fires
+origin/topic/atomic-core 9469244d869623e8b54d9f3d4d00737e377af273
+	drm/atomic: Fix potential use of state after free
+sound-upstream/for-next a52afea68f94d2501b7fe1fa18cc6acf84e35a76
+	Merge tag 'asoc-v4.1' of git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound into for-next
+origin/topic/drm-misc 83f833edd3e366fb31a0a7a187690d662d8c607a
+	drm: Lighten sysfs connector 'status'
