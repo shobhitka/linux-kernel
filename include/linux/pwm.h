@@ -24,6 +24,12 @@ void pwm_free(struct pwm_device *pwm);
 int pwm_config(struct pwm_device *pwm, int duty_ns, int period_ns);
 
 /*
+ * pwm_config_alternate - change a PWM device configuration
+ *			  based on clk_dic and duty_percent
+ */
+int pwm_config_alternate(struct pwm_device *pwm, int clk_div, int duty_percent);
+
+/*
  * pwm_enable - start a PWM output toggling
  */
 int pwm_enable(struct pwm_device *pwm);
@@ -89,6 +95,8 @@ struct pwm_device {
 
 	unsigned int		period; 	/* in nanoseconds */
 	unsigned int		duty_cycle;	/* in nanoseconds */
+	unsigned int		clk_div;
+	unsigned int		duty_percent;
 	enum pwm_polarity	polarity;
 };
 
@@ -112,6 +120,28 @@ static inline void pwm_set_duty_cycle(struct pwm_device *pwm, unsigned int duty)
 static inline unsigned int pwm_get_duty_cycle(struct pwm_device *pwm)
 {
 	return pwm ? pwm->duty_cycle : 0;
+}
+
+static inline void pwm_set_clk_div(struct pwm_device *pwm, unsigned int clk_div)
+{
+	if (pwm)
+		pwm->clk_div = clk_div;
+}
+
+static inline unsigned int pwm_get_clk_div(struct pwm_device *pwm)
+{
+	return pwm ? pwm->clk_div : 0;
+}
+
+static inline void pwm_set_duty_percent(struct pwm_device *pwm, unsigned int duty_percent)
+{
+	if (pwm)
+		pwm->duty_percent = duty_percent;
+}
+
+static inline unsigned int pwm_get_duty_percent(struct pwm_device *pwm)
+{
+	return pwm ? pwm->duty_percent : 0;
 }
 
 /*
@@ -138,6 +168,9 @@ struct pwm_ops {
 	int			(*config)(struct pwm_chip *chip,
 					  struct pwm_device *pwm,
 					  int duty_ns, int period_ns);
+	int			(*config_alternate)(struct pwm_chip *chip,
+					  struct pwm_device *pwm,
+					  int clk_div, int duty_percent);
 	int			(*set_polarity)(struct pwm_chip *chip,
 					  struct pwm_device *pwm,
 					  enum pwm_polarity polarity);

@@ -235,7 +235,8 @@ int pwmchip_add(struct pwm_chip *chip)
 	unsigned int i;
 	int ret;
 
-	if (!chip || !chip->dev || !chip->ops || !chip->ops->config ||
+	if (!chip || !chip->dev || !chip->ops ||
+	    !(chip->ops->config || chip->ops->config_alternate) ||
 	    !chip->ops->enable || !chip->ops->disable || !chip->npwm)
 		return -EINVAL;
 
@@ -420,6 +421,30 @@ int pwm_config(struct pwm_device *pwm, int duty_ns, int period_ns)
 	return 0;
 }
 EXPORT_SYMBOL_GPL(pwm_config);
+
+/**
+ * pwm_config_alternate() - change a PWM device configuration
+ * @pwm: PWM device
+ * @clk_div: Clock divider to configure
+ * @duty_percentage: duty cycle in percentage
+ */
+int pwm_config_alternate(struct pwm_device *pwm, int clk_div, int duty_percent)
+{
+	int err;
+
+	if (!pwm || clk_div < 0 || duty_percent < 0 || duty_percent > 100)
+		return -EINVAL;
+
+	err = pwm->chip->ops->config_alternate(pwm->chip, pwm, clk_div, duty_percent);
+	if (err)
+		return err;
+
+	pwm->clk_div = clk_div;
+	pwm->duty_percent = duty_percent;
+
+	return 0;
+}
+EXPORT_SYMBOL_GPL(pwm_config_alternate);
 
 /**
  * pwm_set_polarity() - configure the polarity of a PWM signal
